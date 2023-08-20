@@ -181,17 +181,7 @@ function Gallery(props) {
   return (
     <div className='gallery-container-container' ref={componentRef}>
         
-        {/* {products?.length
-                ? (
-                    <div className='card-container'>
-                        {products.map((product, i) =>
-                            // <Link to={`/productos/${product._id}`}>
-                            <Card key={i} titulo={product.titulo} img={product.imagen} precio={product.precio} product={product}/>
-                            // </Link>
-                            )}
-                    </div>
-                ) : <p>No hay productos</p>
-            } */}
+       
        
         {filteredProducts?.length 
                 ? (
@@ -217,7 +207,7 @@ function Gallery(props) {
 
                     
                         {/* Display filtered products here */}
-                        {filteredProducts.map((product, i) => (
+                        {filteredProducts?.map((product, i) => (
                             <Card3 key={i}  titulo={product.titulo} img={product.imagenes[0]} precio={product.precio} product={product}/>
                         ))}
                         
