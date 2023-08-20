@@ -86,7 +86,7 @@ function Nav() {
      <div>
      
         <nav className='nav'>
-        {auth.user ? <Link to={'/home'}><img src="amaia-logo.jpeg" alt='logo'/></Link> : <Link to={'/'}><img src="logo3.svg" alt='logo'/></Link>}
+        {auth.user ? <Link to={'/home'}><img src="amaia-logo.jpeg" alt='logo'/></Link> : <Link to={'/'}><img src="amaia-logo.jpeg" alt='logo'/></Link>}
         <ul className="navbar">
           
             <li className='nav-admin'><Link to={"/admin"}>Admin</Link></li>
