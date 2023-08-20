@@ -34,7 +34,7 @@ const Home = () => {
             </div>
             <Products />
             <GalleryCategory />
-            <Gallery />
+            {/* <Gallery /> */}
             <div className="login-container">
 
                 <Login2 />
