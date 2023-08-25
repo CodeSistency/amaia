@@ -74,7 +74,7 @@ function Nav() {
               <Link to={'productos'}><AiOutlineMan className='gender-icon' color='#0d3f71' fontSize={35}/></Link>
               <Link to={'productos'}><AiOutlineWoman className='gender-icon' color='pink' fontSize={35}/></Link>
             </div>
-            {auth.user ? <Link to={'/home'}><img src="logo3.svg" className='logo' alt='logo'/></Link> : <Link to={'/'}><img src="logo3.svg" className='logo' alt='logo'/></Link>}
+            {auth.user ? <Link to={'/home'}><img src="amaia-logo.jpeg" className='logo' alt='logo'/></Link> : <Link to={'/'}><img src="amaia-logo.jpeg" className='logo' alt='logo'/></Link>}
             <div className='nav-top-right'>
             <Link to={'/Login2'}><BsInstagram className='user-icon' fontSize={30}/></Link>
               <div className='cart-icon'>{cartIcon()}</div>
