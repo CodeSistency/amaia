@@ -90,7 +90,7 @@ function Nav() {
         <ul className="navbar">
           
             <li className='nav-admin'><Link to={"/admin"}>Admin</Link></li>
-            <li className='nav-admin'><Link to={"/productos"}>Productos</Link></li>
+            <li className='nav-admin'><Link to={"/createProduct"}>Crear</Link></li>
             
             {auth.user ? <button className='logout' onClick={signOut}>Salir de sesion</button> : <li><Link className='login-button' to={"/inicio"}>Login</Link></li>}
             {!auth.user && <li><Link className='login-button' to={"/register"}>Registro</Link></li>}
