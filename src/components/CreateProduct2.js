@@ -455,7 +455,7 @@ formData.append('imagenes', JSON.stringify(urls));
         setIsLoadingCreate(true)
         console.log(quantityShoe)
         console.log(quantity)
-          const response = await axios.post('products', formData,
+          const response = await axios.post('productos', formData,
           // JSON.stringify({titulo, descripcion, precio, codigo, tallas: quantity, imagen}),
       
           { 
