@@ -29,7 +29,6 @@ import Register2 from './components/Register2';
 import Zapatos from './pages/Zapatos';
 import Hombre from './pages/Hombre';
 import Juguetes from './pages/Juguetes';
-import CreateProduct2 from './components/CreateProduct2';
 
 const ROLES = {
   'User': 2001,
@@ -56,7 +55,6 @@ function App() {
         <Route path="/zapatos" element={<Zapatos />} />
         <Route path="/juguetes" element={<Juguetes />} />
         <Route path="/productos/:id" element={<ProductDetail />} />
-        <Route path="/createProduct" element={<CreateProduct2 />} />
         {/* <Route path="/carrito" element={<Cart />} /> */}
 
         
