@@ -53,8 +53,8 @@ function Card3 (props) {
     </div>
     <ReactWhatsapp 
       class="buy-button-products"
-      number="+58 4249670445" 
-      message={`¡Hola! 👋 ¡Bienvenido a Surtymas! Agradecemos tu interés en nuestro producto "${props.titulo}". Precio:$${props.precio}. Nuestro equipo te atenderá pronto. ¡Gracias! 🛍️`}
+      number="+34 633905982" 
+      message={`¡Hola! 👋 ¡Bienvenido a Amaia Boutique! Agradecemos tu interés en nuestro producto "${props.titulo}". Precio:$${props.precio}. Nuestro equipo te atenderá pronto. ¡Gracias! 🛍️`}
     >
       Comprar
     </ReactWhatsapp>
