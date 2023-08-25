@@ -468,7 +468,7 @@ formData.append('imagenes', JSON.stringify(urls));
           setSuccess(true)
           console.log(success)
           
-          navigate("/admin", { state: {from: location}, replace: true });
+          navigate("/", { state: {from: location}, replace: true });
           reset()
           
       } catch (err) {
