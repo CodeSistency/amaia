@@ -25,6 +25,9 @@ const Menu = ({isOpen, toggleMenu}) => {
           <li><Link to={'/productos'}>Produtos</Link></li>
           <li><Link to={'/carrito'}>Carro</Link></li>
           <li><Link to={'/admin'}>Admin</Link></li>
+          <li><Link to={'/createProduct'}>Crear</Link></li>
+          <li><Link to={'/'}>Home</Link></li>
+
           {/* <li><a href="#">Mujer</a></li>
           <li><a href="#">Hombre</a></li>
           <li><a href="#">Zapatos</a></li>
