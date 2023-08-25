@@ -2142,7 +2142,7 @@ justify-content: space-around;
 gap: 30px;
 align-items: center;
 padding: 15px 15px;
-background: linear-gradient(90deg, rgb(133, 17, 61), #e72828); background-color: rgb(184, 39, 75);
+background: linear-gradient(90deg, rgb(68, 5, 29), #5c052e); 
 }
 
 .login-container > div{
