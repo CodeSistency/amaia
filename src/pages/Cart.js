@@ -5,10 +5,21 @@ import { useParams } from 'react-router-dom';
 import axios from '../api/axios';
 import useAuth from '../hooks/useAuth';
 import { MdDeleteForever } from 'react-icons/md';
+import ModalCart from './ModalCart';
 
 function Cart() {
     const { cart, setCart } = useContext(CartContext);
     console.log(cart)
+
+    const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
     const {auth} = useAuth()
 
@@ -113,7 +124,7 @@ function Cart() {
   return (
     <div>
       <div className='cart-icon-container'>
-        <img src='shopping.png'/>
+        <img src='/shopping.png'/>
 
       </div>
         {products
@@ -131,13 +142,13 @@ function Cart() {
                             <p onClick={handleLess}>+</p>
                           </article> */}
                           <p style={{textAlign: 'right'}}>{`${product.precio}$`}</p>
-                          <ReactWhatsapp style={{width:'100%', padding: '3px 10px'}}
-                          class="buy-button-products"
+                          {/* <ReactWhatsapp style={{width:'100%', padding: '3px 10px'}}
+                          className="buy-button-products"
                           number="+58 4121940547" 
                           message={`¡Hola! 👋 ¡Bienvenido a Surtymas! Agradecemos tu interés en nuestro producto "${product.titulo}". Precio:$${product.precio}. Nuestro equipo te atenderá pronto. ¡Gracias! 🛍️`}
                         >
                           Comprar
-                        </ReactWhatsapp>
+                        </ReactWhatsapp> */}
                         </div>
                         <MdDeleteForever fontSize={30} style={{marginTop:'4px', cursor: 'pointer', alignSelf: 'flex-start', color: '#7e7979'}} onClick={() => handleDelete(product.product)}/>
                       </div>
@@ -150,7 +161,13 @@ function Cart() {
                               <h2>Subtotal:</h2>
                               <h1>{total}$</h1>
                             </div>
-                            <ReactWhatsapp 
+                            <button className="buy-total" onClick={openModal}>
+                                Comprar
+                              </button>
+                              {modalOpen && (
+                                <ModalCart closeModal={closeModal} cart={products} user={auth?.user}/>
+                              )}
+                              {/* <ReactWhatsapp 
                             className='buy-total' 
                             number='+58 4121940547'
                             message={`¡Hola! 👋 ¡Bienvenido a Surtymas! Agradecemos tu interés en nuestros productos. Aquí está la lista de lo que pediste:
@@ -159,7 +176,7 @@ ${cart.map(product => (
 ))}
 Nuestro equipo te atenderá pronto. ¡Gracias! 🛍️`}
 
-                            >Comprar</ReactWhatsapp>
+                            >Comprar</ReactWhatsapp> */}
                           </div>
                           </div>
                   </div>

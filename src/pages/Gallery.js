@@ -13,12 +13,13 @@ import FilterCategory from './FilterCategory';
 import GenderRadioFilter from './GenderFilter';
 import Card3 from './Card3';
 import {AiOutlineDown} from 'react-icons/ai'
+import useAuth from '../hooks/useAuth';
 
-function Gallery(props) {
+function Gallery() {
 
     const [products, setProducts] = useState();
     const [filteredProducts, setFilteredProducts] = useState([]);
-    const [selectedSexo, setSelectedSexo] = useState(props.mujer);
+    const [selectedSexo, setSelectedSexo] = useState();
 
     const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -27,6 +28,8 @@ function Gallery(props) {
     const location = useLocation();
     
     const componentRef = useRef(null);
+
+    const {auth} = useAuth()
 
     const handleFilter = filteredProducts => {
         setFilteredProducts(filteredProducts);
@@ -44,42 +47,20 @@ function Gallery(props) {
         setFilteredProducts(updatedProducts);
       };
 
+      const { cart, setCart, searchQuery, getCartProducts } = useContext(CartContext);
+
       
-      
+      useEffect(() => {
+        getCartProducts(auth?.user)
+      }, [auth])
 
-    // useEffect(() => {
-    //     let isMounted = true;
-    //     const controller = new AbortController();
-
-    //     const getProducts = async (pageNumber) => {
-    //         try {
-    //             const response = await axios.get(`/productos?pageNumber=${pageNumber}`, {
-    //                 signal: controller.signal
-    //             });
-    //             console.log(props.mujer)
-    //             console.log(response.data);
-    //             isMounted && setProducts(response.data);
-    //             console.log(products[2].imagenes)
-    //             setCurrentPage(pageNumber);
-    //         } catch (err) {
-    //             console.error(err);
-    //             // navigate('/login', { state: { from: location }, replace: true });
-    //         }
-    //     }
-
-    //     getProducts();
-
-    //     return () => {
-    //         isMounted = false;
-    //         controller.abort();
-    //     }
-    // }, [])
 
 
       const getProducts = async (pageNumber) => {
           try {
-              const response = await axios.get(`/productos/limited?pageNumber=${pageNumber}`);
-              console.log(props.mujer)
+              // const response = await axios.get(`/limited?pageNumber=${pageNumber}&search=${searchQuery}`);
+              const response = await axios.get(`productos/limited?pageNumber=${pageNumber}`);
+              // console.log(props.mujer)
               console.log(response.data);
               setProducts(response.data);
               console.log(totalPages)
@@ -181,7 +162,17 @@ function Gallery(props) {
   return (
     <div className='gallery-container-container' ref={componentRef}>
         
-       
+        {/* {products?.length
+                ? (
+                    <div className='card-container'>
+                        {products.map((product, i) =>
+                            // <Link to={`/productos/${product._id}`}>
+                            <Card key={i} titulo={product.titulo} img={product.imagen} precio={product.precio} product={product}/>
+                            // </Link>
+                            )}
+                    </div>
+                ) : <p>No hay productos</p>
+            } */}
        
         {filteredProducts?.length 
                 ? (
@@ -197,7 +188,7 @@ function Gallery(props) {
                                 </div>
                                 <div className='price-container'>
                                   <p onClick={handleGenderClick}>Genero <AiOutlineDown /></p>
-                                  {isGenderOpen && <GenderRadioFilter mujer={props.mujer} onFilter={handleGenderFilter} />}
+                                  {isGenderOpen && <GenderRadioFilter onFilter={handleGenderFilter} />}
                                 </div>
                                 <button style={{fontSize: '15px'}} onClick={handleReset}>Reset</button>
                             </div>
@@ -207,8 +198,8 @@ function Gallery(props) {
 
                     
                         {/* Display filtered products here */}
-                        {filteredProducts?.map((product, i) => (
-                            <Card3 key={i}  titulo={product.titulo} img={product.imagenes[0]} precio={product.precio} product={product}/>
+                        {filteredProducts.map((product, i) => (
+                            <Card3 key={i}  titulo={product.titulo} img={product.imagenes[0]} precio={product.precio} product={product} codigo={product.codigo}/>
                         ))}
                         
                     </div>
@@ -227,14 +218,14 @@ function Gallery(props) {
                                 </div>
                                 <div className='price-container'>
                                   <p onClick={handleGenderClick}>Genero <AiOutlineDown /></p>
-                                  {isGenderOpen && <GenderRadioFilter mujer={props.mujer} onFilter={handleGenderFilter} />}
+                                  {isGenderOpen && <GenderRadioFilter  onFilter={handleGenderFilter} />}
                                 </div>
                                 
                             </div>
                 <div className='gallery-container'>
                 {products?.map((product, i) =>
                     // <Link to={`/productos/${product._id}`}>
-                    <Card3 key={i} titulo={product.titulo} img={product.imagenes[0]} precio={product.precio} id={product._id} product={product}/>
+                    <Card3 key={i} titulo={product.titulo} img={product.imagenes[0]} precio={product.precio} id={product._id} product={product} codigo={product.codigo}/>
                     // </Link>
                     )}
                 </div>

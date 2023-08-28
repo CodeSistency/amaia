@@ -47,6 +47,21 @@ function Products() {
         }
     }, [])
 
+    function shuffleArray(array) {
+        for (let i = array?.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+      }
+      
+      // Shuffle the 'clothes' array randomly
+      useEffect(() => {
+
+          const shuffledClothes = shuffleArray(products);
+          console.log(shuffledClothes)
+      }, [products])
+
 
   return (
     <div >
@@ -68,7 +83,7 @@ function Products() {
                     <div className='card-container'>
                         {products.map((product, i) =>
                             // <Link to={`/productos/${product._id}`}>
-                            <Card2 key={i} id={product._id} titulo={product.titulo} img={product.imagenes[0]} precio='10' product={product}/>
+                            <Card2 key={i} id={product._id} titulo={product.titulo} img={product.imagenes[0]} precio='10' product={product} codigo={product.codigo}/>
                             // </Link>
                             )}
                     </div>

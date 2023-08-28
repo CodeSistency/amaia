@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 // import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import axios from "../api/axios";
 
@@ -9,6 +9,7 @@ const CartContext = createContext({});
 export const CartProvider = ({ children }) => {
     const [cart, setCart] = useState([]);
     const [data, setData] = useState()
+    const [searchQuery, setSearchQuery] = useState()
     const [searchInput, setSearchInput] = useState(''); 
     const [products, setProducts] = useState()
 
@@ -38,6 +39,10 @@ export const CartProvider = ({ children }) => {
     //     }
     // }, [])
 
+    useEffect(() =>{
+        console.log(searchQuery)
+    }, [searchQuery])
+
     function addProductToResults(product) {
         console.log(product)
         setCart((prevResults) => [...prevResults, product]);
@@ -49,34 +54,25 @@ export const CartProvider = ({ children }) => {
         
     }
 
-    const handleCart = async (username, nombre, precio, precio_mayor, imagen, id) => {
+    const handleCart = async (username, nombre, precio, precio_mayor, imagen, id, codigo) => {
 
-        console.log(username, nombre, precio, precio_mayor)
+        // console.log(username, nombre, precio, precio_mayor)
     let isMounted = true;
         const controller = new AbortController();
         const quantity = 0
 
-        // const formData = new FormData();
-        // formData.append('username', username);
-        // formData.append('nombre', nombre);
-        // formData.append('precio', precio);
-        // formData.append('precio_mayor', precio_mayor);
-        // formData.append('quantity', quantity);
-
-        // console.log(formData.getAll())
-
-        console.log(username, nombre, precio, precio_mayor)
+        console.log(username, nombre, precio, precio_mayor, codigo)
 
       
           try {
-              const response = await axios.put('cart', { username, nombre, precio, precio_mayor, quantity, imagen, id },
+              const response = await axios.put('cart', { username, nombre, precio, precio_mayor, quantity, imagen, id, codigo},
             //   JSON.stringify({username, nombre, precio, precio_mayor, quantity}),
               { 
                   signal: controller.signal,
                   
               });
               console.log(JSON.stringify(response?.data));
-              isMounted && setCart(response.data);
+            //   isMounted && setCart(response.data);
               
           } catch (err) {
               console.error(err);
@@ -89,6 +85,61 @@ export const CartProvider = ({ children }) => {
           }
     
         
+    }
+
+   //
+  
+        const getCartProducts = async (username) => {
+            try {
+                const response = await axios.get(`/cart/${username}`, {
+                 
+                });
+                console.log(response.data);
+                setCart(response.data);
+                console.log(products)
+                // console.log(products[2].imagenes)
+            } catch (err) {
+                console.error(err);
+                // navigate('/login', { state: { from: location }, replace: true });
+            }
+        }
+  
+        useEffect(() =>{
+            getCartProducts()
+        }, [cart])
+        
+  
+
+    const handleDelete = async (username, id) => {
+
+        let isMounted2 = true;
+        const controller = new AbortController();
+        console.log(id)
+        
+        
+        try {
+            const response = await axios.delete(`cart/${username}/${id}`,
+            
+        
+        {
+                signal: controller.signal
+            });
+            console.log(JSON.stringify(response?.data));
+            
+            
+            
+            
+        } catch (err) {
+            console.error(err);
+            console.log(JSON.stringify(err));
+            
+            
+        }
+    
+        return () => {
+            isMounted2 = false;
+            controller.abort();
+        }
     }
 
     function filterProductsByTitle() {
@@ -109,7 +160,7 @@ export const CartProvider = ({ children }) => {
       }
 
     return (
-        <CartContext.Provider value={{searchInput, cart, filterProductsByTitle, setCart, addProductToResults, removeFromCart, handleCart }}>
+        <CartContext.Provider value={{searchQuery, setSearchQuery, searchInput, cart, getCartProducts, filterProductsByTitle, setCart, addProductToResults, removeFromCart, handleCart }}>
             {children}
         </CartContext.Provider>
     )

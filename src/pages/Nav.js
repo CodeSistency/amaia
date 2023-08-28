@@ -1,5 +1,5 @@
 import {useState, useEffect}  from 'react'
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import useAuth from '../hooks/useAuth'
 import useLogout from '../hooks/useLogout'
 import {useContext} from 'react'
@@ -29,6 +29,8 @@ function Nav() {
 
   const {auth} = useAuth()
 
+  const location = useLocation()
+
   const toggleMenu = () => {
     setMenuVisible(!menuVisible);
   };
@@ -40,6 +42,9 @@ function Nav() {
 
   const { cart, setCart, setSearchQuery } = useContext(CartContext);
 
+  function login(){
+    navigate("/sesion", { state: {from: location}, replace: true });
+  }
 
   // setSearchQuery(searchInput)
     const {logout} = useLogout()
@@ -54,11 +59,16 @@ function Nav() {
 
     function cartIcon() {
       
-      if(auth.user) {
-          return <Link  to={`home/carrito/${auth.user}`}><IoCartSharp fontSize={40} /></Link>
+      if(!auth.user) {
+          return <IoCartOutline fontSize={40} onClick={login}/>
       } else {
-          return <Link  to={`home/carrito/${auth.user}`}><IoCartOutline fontSize={40} /></Link>
+        return <Link  to={`/home/carrito/${auth.user}`}><IoCartOutline fontSize={40} /></Link>
       }
+      // if(cart) {
+      //   return  <Link  to={`/home/carrito/${auth.user}`}><IoCartSharp fontSize={40} /></Link>
+      // } else{
+      //   <Link  to={`/home/carrito/${auth.user}`}><IoCartOutline fontSize={40} /></Link>
+      // }
   }
 
     // const {auth} = useAuth()
@@ -71,14 +81,14 @@ function Nav() {
           <section className='nav-top'>
             <div className='nav-top-left'>
               <Menu toggleMenu={toggleMenu} onClick={toggleMenu} isOpen={menuVisible}></Menu>
-              <Link to={'productos'}><AiOutlineMan className='gender-icon' color='#0d3f71' fontSize={35}/></Link>
-              <Link to={'productos'}><AiOutlineWoman className='gender-icon' color='pink' fontSize={35}/></Link>
+              {/* {auth?.user ? <Link to={'home/genero/hombre'}><AiOutlineMan className='gender-icon' color='#0d3f71' fontSize={35}/></Link> : <Link to={'genero/hombre'}><AiOutlineMan className='gender-icon' color='#0d3f71' fontSize={35}/></Link>}
+              {auth?.user ? <Link to={'home/genero/mujer'}><AiOutlineWoman className='gender-icon' color='pink' fontSize={35}/></Link> : <Link to={'genero/mujer'}><AiOutlineWoman className='gender-icon' color='pink' fontSize={35}/></Link>} */}
             </div>
-            {auth.user ? <Link to={'/home'}><img src="amaia-logo.jpeg" className='logo' alt='logo'/></Link> : <Link to={'/'}><img src="amaia-logo.jpeg" className='logo' alt='logo'/></Link>}
+            {auth?.user ? <Link to={'/home'}><img src="/amaia-logo.jpeg" className='logo' alt='logo'/></Link> : <Link to={'/'}><img src="/amaia-logo.jpeg" className='logo' alt='logo'/></Link>}
             <div className='nav-top-right'>
-            <Link to={'/Login2'}><BsInstagram className='user-icon' fontSize={30}/></Link>
+            {/* <Link to={'/sesion'}><BsInstagram className='user-icon' fontSize={30}/></Link> */}
               <div className='cart-icon'>{cartIcon()}</div>
-              <Link to={'/Login2'}><BiUser className='user-icon' fontSize={35}/></Link>
+              {/* <Link to={'/Login2'}><BiUser className='user-icon' fontSize={35}/></Link> */}
             </div>
           </section>
 
@@ -87,12 +97,12 @@ function Nav() {
             <ul className="navbar">
               
                 <li className='nav-admin'><Link to={"/admin"}>Admin</Link></li>
-                <li className='nav-admin'><Link to={"/productos"}>Productos</Link></li>
-                <li className='nav-admin'><Link to={"/productos"}>Mujer</Link></li>
-                <li className='nav-admin'><Link to={"/productos"}>Hombre</Link></li>
-                <li className='nav-admin'><Link to={"/productos"}>Faldas</Link></li>
-                <li className='nav-admin'><Link to={"/productos"}>Pantalones</Link></li>
-                <li className='nav-admin'><Link to={"/productos"}>Franelas</Link></li>
+
+                <li className='nav-admin'><Link to={"/genero/mujer"}>Mujer</Link></li>
+                <li className='nav-admin'><Link to={"/genero/hombre"}>Hombre</Link></li>
+                <li className='nav-admin'><Link to={"/tipo/faldas"}>Faldas</Link></li>
+                <li className='nav-admin'><Link to={"/tipo/pantalon"}>Pantalones</Link></li>
+                <li className='nav-admin'><Link to={"/tipo/franela"}>Franelas</Link></li>
                 
                 {/* {auth.user ? <button className='logout' onClick={signOut}>Salir de sesion</button> : <li><Link className='login-button' to={"/inicio"}>Login</Link></li>}
                 {!auth.user && <li><Link className='login-button' to={"/register"}>Registro</Link></li>} */}

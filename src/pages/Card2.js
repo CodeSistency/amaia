@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {useContext} from 'react'
 import CartContext from "../context/CartProvider";
 import {IoCartOutline, IoCartSharp} from "react-icons/io5"
@@ -7,11 +7,24 @@ import { Link } from 'react-router-dom';
 import ReactWhatsapp from 'react-whatsapp';
 import useAuth from '../hooks/useAuth';
 import { useNavigate, useLocation } from 'react-router-dom';
+import ModalBuy from './ModalBuy';
 
 function Card2 (props) {
 
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   const { cart, addProductToResults, removeFromCart, handleCart } = useContext(CartContext);
   const {auth} = useAuth()
+
+ 
 
   const precio_mayor = 0
 
@@ -22,17 +35,36 @@ function Card2 (props) {
     navigate("/sesion", { state: {from: location}, replace: true });
   }
 
-  function cartIcon() {
-    const alreadyInCart = cart.some(item => item._id === props.id)
-    if(!auth.user){
-      return <IoCartOutline style={{cursor: 'pointer'}} className='cart' fontSize={20} onClick={login}/>
-    }
-    if(alreadyInCart) {
-        return <IoCartSharp style={{cursor: 'pointer'}} className='cart' fontSize={20} onClick={() => removeFromCart(props.id)}/>
-    } else {
-        // return <IoCartOutline className='cart' fontSize={20} onClick={() => addProductToResults(props.product)}/>
-        return <IoCartOutline style={{cursor: 'pointer'}} className='cart' fontSize={20} onClick={() => handleCart(auth?.user, props.titulo, props.precio, precio_mayor, props.img, props.id)}/>
-    }
+//   function cartIcon() {
+//     const alreadyInCart = cart?.cartProducts.some(item => item._id === props.id)
+//     console.log(alreadyInCart)
+//     if(!auth.user){
+//       return <IoCartOutline style={{cursor: 'pointer'}} className='cart' fontSize={20} onClick={login}/>
+//     }
+//     if(alreadyInCart) {
+//         return <IoCartSharp style={{cursor: 'pointer'}} className='cart' fontSize={20} onClick={() => removeFromCart(props.id)}/>
+//     } else {
+//         // return <IoCartOutline className='cart' fontSize={20} onClick={() => addProductToResults(props.product)}/>
+//         return <IoCartOutline style={{cursor: 'pointer'}} className='cart' fontSize={20} onClick={() => handleCart(auth?.user, props.titulo, props.precio, precio_mayor, props.img, props.id)}/>
+//     }
+// }
+
+function cartIcon() {
+    
+  if(!auth.user){
+    return <IoCartOutline style={{cursor: 'pointer'}} className='cart' fontSize={20} onClick={login}/>
+  }
+
+  const alreadyInCart = cart?.cartProducts?.some(item => item.product === props.id)
+  console.log(alreadyInCart)
+  
+
+  if(alreadyInCart) {
+      return <IoCartSharp style={{cursor: 'pointer'}} className='cart' fontSize={20} onClick={() => removeFromCart(props.id)}/>
+  } else {
+      // return <IoCartOutline className='cart' fontSize={20} onClick={() => addProductToResults(props.product)}/>
+      return <IoCartOutline style={{cursor: 'pointer'}} className='cart' fontSize={20} onClick={() => handleCart(auth?.user, props.titulo, props.precio, precio_mayor, props.img, props.id, props.codigo)}/>
+  }
 }
 
   
@@ -41,7 +73,7 @@ function Card2 (props) {
 
   return (
     <div class="product-card">
-      <Link to={`/productos/${props.id}`} class="product-image-link">
+      <Link to={`productos/${props.id}`} class="product-image-link">
         <img loading='lazy' src={props.img} alt="Product Image" class="product-image" >
           
         </img>
@@ -53,13 +85,12 @@ function Card2 (props) {
       <p class="product-price price-absolute">{props.precio}<small style={{color: 'black'}}>$</small></p>
       
     </div>
-    <ReactWhatsapp 
-      class="buy-button-products"
-      number="+34 633905982"
-      message={`¡Hola! 👋 ¡Bienvenido a Amaia Boutique! Agradecemos tu interés en nuestro producto "${props.titulo}". Precio:$${props.precio}. Nuestro equipo te atenderá pronto. ¡Gracias! 🛍️`}
-    >
-      Comprar
-    </ReactWhatsapp>
+    <button className="buy-button-products" onClick={openModal}>
+        Comprar
+      </button>
+      {modalOpen && (
+        <ModalBuy closeModal={closeModal} product={props.product} user={auth?.user}/>
+      )}
   </div>
   )
 }
