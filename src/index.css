@@ -1862,7 +1862,8 @@ right:  0;
 
 .buy-button {
   /* background-color: #2ecc71; */
-  background-color: var(--primary-color);
+  /* background-color: var(--primary-color); */
+  background-color: rgb(255, 33, 118);
   color: white;
   border: none;
   border-radius: 40px;
@@ -1883,7 +1884,7 @@ right:  0;
 
 .buy-button-products {
   /* background-color: #2ecc71; */
-  background-color: #d94ec9;
+  background-color: rgb(220, 16, 94);
   color: white;
   border: none;
   border-radius: 0 0 10px 10px;
